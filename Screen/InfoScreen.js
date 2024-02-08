@@ -6,9 +6,9 @@ const InfoScreen = () => {
 
   const toggleRectangleHeight = index => {
     if (expandedRectangles.includes(index)) {
-      setExpandedRectangles(expandedRectangles.filter(item => item !== index));
+      setExpandedRectangles([expandedRectangles.filter(item => item !== index)]);
     } else {
-      setExpandedRectangles([...expandedRectangles, index]);
+      setExpandedRectangles([index]);
     }
   };
 
@@ -21,12 +21,15 @@ const InfoScreen = () => {
             onPress={() => toggleRectangleHeight(index)}
             activeOpacity={0.75}
           >
-            <View
-              style={[
-                styles.rectangle,
-                expandedRectangles.includes(index) && { height: 500 },
-              ]}
-            ></View>
+            <View style={styles.rectangle}>
+              <Text style={styles.title}>Titre {index + 1}</Text>
+              <View
+                style={[
+                  styles.content,
+                  expandedRectangles.includes(index) && { height: 500 },
+                ]}
+              ></View>
+            </View>
           </TouchableOpacity>
         ))}
       </View>
@@ -47,10 +50,21 @@ const styles = StyleSheet.create({
   },
   rectangle: {
     width: 360,
-    height: 200,
     backgroundColor: 'blue',
     margin: 10,
     borderRadius: 25,
+    overflow: 'hidden', // Pour cacher le contenu débordant
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    padding: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  content: {
+    height: 200, // Hauteur initiale du contenu
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
   },
 });
 
