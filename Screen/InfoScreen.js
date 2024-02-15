@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 
 const InfoScreen = () => {
   const [expandedRectangles, setExpandedRectangles] = useState([]);
+  const [lineCounts, setLineCounts] = useState([]);
+
+  useEffect(() => {
+    const counts = new Array(5).fill(0);
+    setLineCounts(counts);
+  }, []);
 
   const toggleRectangleHeight = index => {
     if (expandedRectangles.includes(index)) {
@@ -12,10 +18,19 @@ const InfoScreen = () => {
     }
   };
 
+  const onTextLayout = (event, index) => {
+    const { lines } = event.nativeEvent;
+    setLineCounts(prevState => {
+      const newState = [...prevState];
+      newState[index] = lines.length;
+      return newState;
+    });
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.container}>
-        {[...Array(5).keys()].map((_, index) => (
+        {[...Array(5).keys()].map((index) => (
           <TouchableOpacity
             key={index}
             onPress={() => toggleRectangleHeight(index)}
@@ -26,10 +41,9 @@ const InfoScreen = () => {
               <View
                 style={[
                   styles.content,
-                  expandedRectangles.includes(index) && { height: 500 },
+                  expandedRectangles.includes(index) && { height: 200 + (lineCounts[index] * 15) },
                 ]}
               >
-                {/* Ajout de l'image */}
                 <View style={styles.imageContainer}>
                   <Image
                     style={styles.image}
@@ -37,8 +51,19 @@ const InfoScreen = () => {
                   />
                 </View>
                 {expandedRectangles.includes(index) && (
-                    <Text style={styles.description}>Description {index + 1} :</Text>
-                  )}
+                  <>
+                    <Text
+                      style={styles.description}
+                      onTextLayout={(event) => onTextLayout(event, index)}
+                    >
+                      Description {index + 1} :
+                    </Text>
+                    <Text style={styles.additionalText} onTextLayout={(event) => onTextLayout(event, index)}>
+                      Additional Text Here: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et nulla nec diam fermentum cursus. Phasellus pretium risus vitae odio consequat, eget dictum velit gravida. Nulla facilisi. Vivamus malesuada sagittis elit nec hendrerit.Additional Text Here: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et nulla nec diam fermentum cursus. Phasellus pretium risus vitae odio consequat, eget dictum velit gravida. Nulla facilisi. Vivamus malesuada sagittis elit nec hendrerit.
+                      {'\n'}
+                    </Text>
+                  </>
+                )}
               </View>
             </View>
           </TouchableOpacity>
@@ -91,6 +116,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'white',
     padding: 25,
+  },
+  additionalText: {
+    fontSize: 12,
+    color: 'white',
+    padding: 10,
   }
 });
 
