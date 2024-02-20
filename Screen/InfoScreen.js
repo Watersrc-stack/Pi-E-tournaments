@@ -4,6 +4,29 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'rea
 const InfoScreen = () => {
   const [expandedRectangles, setExpandedRectangles] = useState([]);
   const [lineCounts, setLineCounts] = useState([]);
+  const descriptions = [
+    "       L'Europe ambitionne de développer son propre canon électromagnétique, autrement appelé railgun. Ce projet baptisé Thema, financé à hauteur de 15 millions d'euros par le Fonds européen de défense, va conduire à la production d'un démonstrateur, avec l'ambition d'une industrialisation à terme. L'arme devra compléter les systèmes des forces navales et terrestres. Le « défi » est mené par 14 partenaires européens rassemblés dans le consortium Thema.",
+    "       Cela fait quelques semaines à peine que Google a annoncé Lumière, une intelligence artificielle capable de générer des clips vidéo de cinq secondes d'une qualité jusqu’ici inégalée. Mais les choses évoluent de plus en plus vite dans ce domaine et une nouvelle IA vient de battre celle de Google a plate couture. Voici Sora d'OpenAI, une intelligence artificielle capable de générer des vidéos ultraréalistes qui peuvent durer jusqu'à une minute.",
+    "       L'entreprise suédoise Minesto vient de franchir une nouvelle étape avec la mise en route de son hydrolienne Dragon 12, connectée au réseau électrique des îles Féroé. Une hydrolienne fonctionne comme une éolienne, sauf que ses turbines sont actionnées par les courants marins. En l'occurrence, le Dragon 12 est une hydrolienne de type « cerf-volant », ancré au fond marin.",
+    "       L'Apple Vision Pro, un casque de réalité mixte ou « ordinateur spatial », est sorti depuis deux semaines aux États-Unis. L'appareil a connu un engouement sur les réseaux sociaux et dans les médias bien plus important que ce qu'a connu le Meta Quest 3, qui offre pourtant largement les mêmes fonctionnalités, et plus encore, à un prix bien inférieur.",
+    "       Les nouveaux modèles d'intelligence artificielle ne servent pas uniquement à générer du texte et des images. Ils permettront également de créer des robots polyvalents, capables d'effectuer un grand nombre de tâches et de s'adapter rapidement à un nouveau travail. C'est ce sur quoi travaille la société 1X Technologies. La firme avait annoncé une levée de fonds de 23,5 millions de dollars l'année dernière, largement soutenu par OpenAI, puis encore 100 millions de dollars en janvier."
+  ];
+
+  const images = [
+    require('./image1.png'),
+    require('./image2.png'),
+    require('./image3.png'),
+    require('./image4.png'),
+    require('./image5.png')
+  ];
+
+  const titles = [
+    "L’Europe va avoir son propre canon électromagnétique",
+    "OpenAI dévoile un outil de création de vidéos",
+    "Cette hydrolienne « cerf-volant » est le premier « Dragon » à alimenter les îles Féroé en électricité",
+    "Pourquoi le casque Meta Quest 3 bat l'Apple Vision Pro, selon Mark Zuckerberg ?",
+    "Regardez les robots humanoïdes Eve en action dans une vidéo un peu surréaliste"
+  ];
 
   useEffect(() => {
     const counts = new Array(5).fill(0);
@@ -37,7 +60,7 @@ const InfoScreen = () => {
             activeOpacity={0.75}
           >
             <View style={styles.rectangle}>
-              <Text style={styles.title}>Titre {index + 1}</Text>
+              <Text style={styles.title}>{titles[index]}</Text>
               <View
                 style={[
                   styles.content,
@@ -47,7 +70,7 @@ const InfoScreen = () => {
                 <View style={styles.imageContainer}>
                   <Image
                     style={styles.image}
-                    source={require('./test.png')}
+                    source={images[index]}
                   />
                 </View>
                 {expandedRectangles.includes(index) && (
@@ -56,11 +79,7 @@ const InfoScreen = () => {
                       style={styles.description}
                       onTextLayout={(event) => onTextLayout(event, index)}
                     >
-                      Description {index + 1} :
-                    </Text>
-                    <Text style={styles.additionalText} onTextLayout={(event) => onTextLayout(event, index)}>
-                      Additional Text Here: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et nulla nec diam fermentum cursus. Phasellus pretium risus vitae odio consequat, eget dictum velit gravida. Nulla facilisi. Vivamus malesuada sagittis elit nec hendrerit.Additional Text Here: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et nulla nec diam fermentum cursus. Phasellus pretium risus vitae odio consequat, eget dictum velit gravida. Nulla facilisi. Vivamus malesuada sagittis elit nec hendrerit.
-                      {'\n'}
+                      {descriptions[index]}
                     </Text>
                   </>
                 )}
